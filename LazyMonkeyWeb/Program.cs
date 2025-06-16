@@ -1,3 +1,5 @@
+// This change was done by J-F on tmp
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
