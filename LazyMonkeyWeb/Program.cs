@@ -1,3 +1,6 @@
+// This was modified by J-F in the 80695 directory.
+// This change was done by J-F on tmp
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
