@@ -26,10 +26,14 @@ jobs:
         run: dotnet restore
 
       - name: Build Application
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --output ./out
 
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
+
+      - name: ZIP Application
+        run: |
+          zip -r ./LazyMonkey.zip ./out/*
 
       - name: Azure Login
         uses: Azure/login@v2.3.0
@@ -38,3 +42,7 @@ jobs:
 
       - name: Deploy Bicep template
         run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=${{vars.LAZY_MONKEY_WEBAPP_NAME}}
+
+      - name: Deploy Application
+        run: |
+          az webapp deploy --resource-group LazyMonkey --name ${{vars.LAZY_MONKEY_WEBAPP_NAME}} --src-path ./LazyMonkey.zip --type zip
