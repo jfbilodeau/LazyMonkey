@@ -36,7 +36,13 @@ jobs:
 
       - name: ZIP Application
         run: |
-          zip -r ./LazyMonkey.zip ./LazyMonkeyWeb/bin/Release/net9.0/publish/*
+          zip -r ./LazyMonkeyWeb.zip ./LazyMonkeyWeb/bin/Release/net9.0/publish/*
+
+      - name: Upload LazyMonkeyWeb.zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: LazyMonkeyWeb.zip
+          path: ./LazyMonkeyWeb.zip 
 
   environment:
     runs-on: ubuntu-latest
@@ -55,8 +61,12 @@ jobs:
       - name: Deploy Bicep template
         run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=${{vars.LAZY_MONKEY_WEBAPP_NAME}}
 
-  deploy-to-prod:
+  deploy:
     runs-on: ubuntu-latest
+
+    needs: 
+      - build
+      - environment
 
     steps:
       - name: Azure Login
@@ -64,6 +74,11 @@ jobs:
         with:
           creds: ${{secrets.AZURE_CREDENTIALS}}
 
+      - name: Download LazyMonkeyWeb.zip artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LazyMonkeyWeb.zip
+
       - name: Deploy Application
         run: |
-          az webapp deploy --resource-group LazyMonkey --name ${{vars.LAZY_MONKEY_WEBAPP_NAME}} --src-path ./LazyMonkey.zip --type zip
+          az webapp deploy --resource-group LazyMonkey --name ${{vars.LAZY_MONKEY_WEBAPP_NAME}} --src-path ./LazyMonkeyWeb.zip --type zip
