@@ -26,14 +26,14 @@ jobs:
         run: dotnet restore
 
       - name: Build Application
-        run: dotnet build --no-restore -o ./out
+        run: dotnet publish
 
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
 
       - name: ZIP Application
         run: |
-          zip -r ./LazyMonkey.zip ./out/*
+          zip -r ./LazyMonkey.zip ./LazyMonkeyWeb/bin/Release/net9.0/publish/*
 
       - name: Azure Login
         uses: Azure/login@v2.3.0
