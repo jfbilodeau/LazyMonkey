@@ -31,5 +31,11 @@ jobs:
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
 
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
       - name: Deploy Bicep template
-        run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=lazymonkeyprod
+        run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=${{vars.LAZY_MONKEY_WEBAPP_NAME}}
+'
