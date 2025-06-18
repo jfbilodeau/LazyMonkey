@@ -38,6 +38,10 @@ jobs:
         run: |
           zip -r ./LazyMonkey.zip ./LazyMonkeyWeb/bin/Release/net9.0/publish/*
 
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Azure Login
         uses: Azure/login@v2.3.0
         with:
