@@ -26,7 +26,7 @@ jobs:
         run: dotnet restore
 
       - name: Build Application
-        run: dotnet build --no-restore --output ./out
+        run: dotnet build --no-restore -o ./out
 
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
