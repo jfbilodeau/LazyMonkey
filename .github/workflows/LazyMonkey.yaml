@@ -26,10 +26,13 @@ jobs:
         run: dotnet restore
 
       - name: Build Application
-        run: dotnet publish
+        run: dotnet build
 
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
+
+      - name: Publish Application
+        run: dotnet publish
 
       - name: ZIP Application
         run: |
