@@ -30,3 +30,6 @@ jobs:
 
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal
+
+      - name: Deploy Bicep template
+        run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=lazymonkeyprod

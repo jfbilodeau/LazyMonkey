@@ -10,8 +10,11 @@ namespace LazyMonkeyLib.Tests
         [TestMethod]
         public void Add_ReturnsCorrectSum()
         {
+            // Arrange
             var calc = new Calculator();
+            // Act
             var result = calc.Add(2, 3);
+            // Assert
             Assert.AreEqual(5, result);
         }
 
