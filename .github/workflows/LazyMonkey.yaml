@@ -58,6 +58,7 @@ jobs:
   deploy-to-prod:
     runs-on: ubuntu-latest
 
+    steps:
       - name: Azure Login
         uses: Azure/login@v2.3.0
         with:
