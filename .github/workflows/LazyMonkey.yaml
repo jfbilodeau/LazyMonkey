@@ -38,10 +38,15 @@ jobs:
         run: |
           zip -r ./LazyMonkey.zip ./LazyMonkeyWeb/bin/Release/net9.0/publish/*
 
-  deploy-to-prod:
+  environment:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: 'templates/*'
+
       - name: Azure Login
         uses: Azure/login@v2.3.0
         with:
@@ -49,6 +54,14 @@ jobs:
 
       - name: Deploy Bicep template
         run: az deployment group create -g LazyMonkey --template-file ./templates/template.bicep --parameters appServiceName=${{vars.LAZY_MONKEY_WEBAPP_NAME}}
+
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
 
       - name: Deploy Application
         run: |
