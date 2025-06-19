@@ -37,7 +37,7 @@ jobs:
       - name: ZIP Application
         run: |
           cd ./LazyMonkeyWeb/bin/Release/net9.0/publish/
-          zip -r ../../../.././LazyMonkeyWeb.zip *
+          zip -r ../../../../../LazyMonkeyWeb.zip *
 
       - name: Upload LazyMonkeyWeb.zip
         uses: actions/upload-artifact@v4
